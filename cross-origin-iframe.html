@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="provider-iframe-script.js"></script>
         <script>
             // Adds new lines to FAQ table to make the content longer and expand
             // the vertical size of this page
@@ -18,40 +19,6 @@
                     newFaqItemDd.textContent = 'New answer, right? Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum illum nobis quia tenetur perferendis id excepturi quisquam, eveniet consectetur non, blanditiis est quibusdam neque maxime labore magni! Facere, a culpa!';
                     templateFaqItem.parentNode.insertBefore(newFaqItem, templateFaqItem);
                 });
-            });
-        </script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var lastSentScrollHeight = 0;
-        
-                // send the current scroll height of the page to its parent window.
-                function sendHeightToParent( scrollHeight ) {
-                    if (scrollHeight !== lastSentScrollHeight) {
-                        const data = { height: scrollHeight };
-                        lastSentScrollHeight = scrollHeight; // cache
-                        window.parent.postMessage(data, '*');
-                    }
-                }
-
-                // measure minimum necessary page height by including an element
-                // as the last child of the body and then getting it's offsetTop.
-                function measurePageHeight() {
-                    const testDiv = document.createElement('div');
-                    testDiv.setAttribute('style', 'clear:both;'); // last element on page
-                    document.body.appendChild(testDiv);
-                    const measuredOffsetTop = testDiv.offsetTop;
-                    document.body.removeChild(testDiv);
-                    return measuredOffsetTop;
-                }
-
-                // send initial height
-                sendHeightToParent(document.body.scrollHeight);
-        
-                // observe for window resize to determine the new height
-                const resizeObserver = new ResizeObserver(entries => {
-                    sendHeightToParent(measurePageHeight());
-                });
-                resizeObserver.observe(document.body);
             });
         </script>
     </head>
